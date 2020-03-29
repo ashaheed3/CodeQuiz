@@ -1,7 +1,21 @@
 div {
-    padding: 50px;
+    padding: 30px;
 }
 
 h1, h5, button{
     text-align: center;
 }
+
+p{
+    font-size: 20px;
+}
+
+button, input{
+    margin-bottom:10px;
+
+}
+
+
+/* .questionNum{
+    visibility:hidden;
+} */
