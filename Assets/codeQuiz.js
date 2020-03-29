@@ -10,6 +10,7 @@ var answerOptions = [
 
 var quizAnswers = [`script tag`,`alert("Hello World");`,`if(i==5)`,`for (i = 0; i <= 5; i++)`,`var colors = ["red","green","blue"]`];
 var score = 0;
+var highScores = [];
 
 var questionNum = 0;
 
@@ -69,9 +70,9 @@ $("body").delegate(".response", "click", function(){
         answerChoices.empty();
 
         var enterInitialsForm = $("<form></form>");
-        var label = (`<label for="enterInitials">Enter Initials</label>`);
-        var input = (`<input type="text" class="form-control" id="enterInitials"></input>`);
-        var submit = (`<button type="button" class="btn btn-primary submit">Submit</button>`);
+        var label = (`<label for="initials">Enter Initials</label>`);
+        var input = (`<input type="text" class="form-control" name="initials" id="initials"></input>`);
+        var submit = (`<button class="btn btn-primary" id= "submit">Submit</button>`);
 
         enterInitialsForm.append(label);
         enterInitialsForm.append(input);
@@ -81,14 +82,40 @@ $("body").delegate(".response", "click", function(){
 
         feedback.text("");
     }
-})
+});
 
-$("body").delegate(".submit", "click", function(){
+$("body").delegate("#submit", "click", function(){
+    event.preventDefault();
+    
     questionHeader.text("Highscores");
-    question.text();
-    answerChoices.empty();
+    
+    var currScore = `${$("#initials").val()}: ${score}`;
+    question.text(currScore);
+    // First grab whatever is in storage and update scores array
 
-})
+    // var storedHighScores = JSON.parse(localStorage.getItem("highscores"));
+    // if (storedHighScores !== null) {
+    //     highScores = storedHighScore;
+    //   }
+
+    // // Take current score and push to array   
+    // highScores.push(currScore);
+    // localStorage.setItem("highscores", JSON.stringify(highScores));
+
+    // //Print all scores to screen
+    // var scoreList = $("<ul></ul>");
+
+    // highScores.forEach(score => {
+
+    //     var scoreLi = $(`<li>${score}</li>`);
+    //     scoreList.append(scoreLi);
+        
+    });
+
+
+
+    
+// })
 
 // if less than prepend
 // if more that append
