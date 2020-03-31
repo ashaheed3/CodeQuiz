@@ -9,10 +9,6 @@ var answerOptions = [
 ];
 
 var quizAnswers = [`script tag`,`alert("Hello World");`,`if(i==5)`,`for (i = 0; i <= 5; i++)`,`var colors = ["red","green","blue"]`];
-var score = 0;
-var highScores = [];
-
-var questionNum = 0;
 
 var questionHeader = $("#questionHeader");
 var question = $("#question");
@@ -21,7 +17,15 @@ var startBtn = $("#startBtn");
 var response = $(".response");
 var feedback = $("#feedback");
 
+var questionNum = 0;
+var score = 0;
 
+var highScores = [];
+var storedHighScores = JSON.parse(localStorage.getItem("highscores"));
+
+if (storedHighScores !== null) {
+    highScores = storedHighScores;
+}
 
 function loadQuestion(){
     questionHeader.text(`Question ${questionNum +1}`);
@@ -29,7 +33,6 @@ function loadQuestion(){
 }
 
 function loadAnswerChoices(){
-
     for (var i = 0; i < 4; i++){
         var answerOption = $(`<button></button>`);
         answerOption.addClass("btn btn-outline-primary response");
@@ -39,18 +42,13 @@ function loadAnswerChoices(){
 }
 
 startBtn.on("click", function(){
-     
     loadQuestion();
     loadAnswerChoices();
-    
     $(".start").empty()
-
 });
 
 $("body").delegate(".response", "click", function(){
-    
     if (questionNum < 4){
-
         var answer = $(this).text();
         if (answer == quizAnswers[questionNum]){
             feedback.text("Correct!");
@@ -60,7 +58,6 @@ $("body").delegate(".response", "click", function(){
         }
 
         questionNum++;
-
         loadQuestion();
         answerChoices.empty();
         loadAnswerChoices();
@@ -70,9 +67,9 @@ $("body").delegate(".response", "click", function(){
         answerChoices.empty();
 
         var enterInitialsForm = $("<form></form>");
-        var label = (`<label for="initials">Enter Initials</label>`);
-        var input = (`<input type="text" class="form-control" name="initials" id="initials"></input>`);
-        var submit = (`<button class="btn btn-primary" id= "submit">Submit</button>`);
+        var label = $(`<label for="initials">Enter Initials</label>`);
+        var input = $(`<input type="text" class="form-control" id="initials"></input>`);
+        var submit = $(`<button class="btn btn-primary" id="submit">Submit</button>`);
 
         enterInitialsForm.append(label);
         enterInitialsForm.append(input);
@@ -88,29 +85,26 @@ $("body").delegate("#submit", "click", function(){
     event.preventDefault();
     
     questionHeader.text("Highscores");
-    
     var currScore = `${$("#initials").val()}: ${score}`;
-    question.text(currScore);
-    // First grab whatever is in storage and update scores array
+    
+    highScores.push(currScore);
+    localStorage.setItem("highscores", JSON.stringify(highScores));
 
-    // var storedHighScores = JSON.parse(localStorage.getItem("highscores"));
-    // if (storedHighScores !== null) {
-    //     highScores = storedHighScore;
-    //   }
+    answerChoices.empty();
 
-    // // Take current score and push to array   
-    // highScores.push(currScore);
-    // localStorage.setItem("highscores", JSON.stringify(highScores));
+    var goBackBtn =  $(`<button class="btn btn-primary" id="goBack">Go Back</button>`);
+    var clearScores = $(`<button class="btn btn-primary" id="clearScores">Clear Highscores</button>`);
 
-    // //Print all scores to screen
-    // var scoreList = $("<ul></ul>");
+    answerChoices.append(goBackBtn);
+    answerChoices.append(clearScores);
+    
+    highScores.forEach(score => {
 
-    // highScores.forEach(score => {
-
-    //     var scoreLi = $(`<li>${score}</li>`);
-    //     scoreList.append(scoreLi);
-        
+        var scoreLi = $(`<p>${score}</p>`);
+        question.prepend(scoreLi);
     });
+   
+});
 
 
 
