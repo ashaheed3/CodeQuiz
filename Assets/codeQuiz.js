@@ -97,6 +97,8 @@ $("body").delegate("#submit", "click", function(){
 
     answerChoices.append(goBackBtn);
     answerChoices.append(clearScores);
+
+    question.empty();
     
     highScores.forEach(score => {
 
@@ -106,8 +108,9 @@ $("body").delegate("#submit", "click", function(){
    
 });
 
-
-
+$("body").delegate("#goBack", "click", function(){
+    window.location.reload(true); 
+});
     
 // })
 
