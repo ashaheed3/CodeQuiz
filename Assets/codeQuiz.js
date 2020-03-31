@@ -41,6 +41,15 @@ function loadAnswerChoices(){
     }
 }
 
+function renderHighScores(){
+    question.empty();
+
+    highScores.forEach(score => {
+    var scoreLi = $(`<p>${score}</p>`);
+    question.prepend(scoreLi);
+    });
+}
+
 startBtn.on("click", function(){
     loadQuestion();
     loadAnswerChoices();
@@ -98,13 +107,7 @@ $("body").delegate("#submit", "click", function(){
     answerChoices.append(goBackBtn);
     answerChoices.append(clearScores);
 
-    question.empty();
-    
-    highScores.forEach(score => {
-
-        var scoreLi = $(`<p>${score}</p>`);
-        question.prepend(scoreLi);
-    });
+    renderHighScores();
    
 });
 
@@ -112,7 +115,10 @@ $("body").delegate("#goBack", "click", function(){
     window.location.reload(true); 
 });
     
-// })
+$("body").delegate("#clearScores", "click", function(){
+    highScores = [];
+    localStorage.setItem("highscores", JSON.stringify(highScores));
+    renderHighScores();
 
-// if less than prepend
-// if more that append
+});
+
